@@ -31,9 +31,10 @@ class PL:
   def next_column_to_optimize(self, mode):
     tableau = self.aux_tableau if mode == "aux" else self.tableau
     size_max = 2 * self.rest_num + self.fpi_size if mode == "aux" else self.fpi_size + self.rest_num
-
+    
     for i in range(self.rest_num, size_max):
-      if(tableau[0][i] < -aux.PRECISION): return i
+      if(tableau[0][i] < -aux.PRECISION): 
+          return i
     return -1
 
   def aux_simplex(self):
@@ -59,7 +60,7 @@ class PL:
     #converte tableau para canonica
     tableau = self.get_first_canonical_primal(bases, self.tableau)
     #itera colunas negativas
-    while(next > 10e-7):
+    while(next > 0):
       pivot = aux.define_pivot(tableau, next)
       if pivot == -1: return ("ilimitado", bases, tableau, next)
       tableau = aux.pivot_column(tableau, pivot, next)
@@ -81,17 +82,17 @@ class PL:
         aux.print_list(self.get_unlimited_certificate(primal[3], bases, primal[2]))
       else:
         print("otima")
-        print(round(primal[2][0,-1], aux.PRINT_PRECISION))
+        print("{:.7f}".format(round(primal[2][0,-1], aux.PRINT_PRECISION)))
         aux.print_list(self.get_viable_solution(primal[1], primal[2]))
         aux.print_list(primal[2][0,0:self.rest_num])
 
 
   def get_unlimited_certificate(self, unlimited_col, bases, tableau):
-    cert = np.zeros(self.var_num)
+    cert = np.zeros(self.fpi_size)
     cert[unlimited_col - self.rest_num] = 1
     for i in bases:
       cert[i[1] - self.rest_num] = - tableau[i[0], unlimited_col]
-    return cert
+    return cert[0:self.var_num]
   
   def get_viable_solution(self, base, tableau):
     solution = np.zeros(self.fpi_size)
