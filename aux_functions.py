@@ -46,10 +46,6 @@ def is_almost_equal(a,b):
 #pivoting
 def pivot_column(tableau, y_pivot, x_pivot):
   pivot = tableau[y_pivot][x_pivot]
-  print(f"😗 Pivoteando os elementos = {y_pivot}, {x_pivot}")
-  print(f"Valor do pivo = {pivot}")
-  print(f"Valor do pivo = {pivot}")
-  print(tableau)
   tableau[y_pivot] = (1/pivot)*(tableau[y_pivot])
   for i in range(y_pivot):
     zerable = tableau[i][x_pivot]
@@ -82,3 +78,4 @@ def print_list(list):
   for i in range(list.size-1):
     print("{:.7f}".format(round(list[i], PRINT_PRECISION)),end = ' ')
   print("{:.7f}".format(round(list[list.size-1], PRINT_PRECISION)))
+

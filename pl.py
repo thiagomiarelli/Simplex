@@ -79,7 +79,7 @@ class PL:
       if primal[0] == "ilimitado":
         print("ilimitada")
         aux.print_list(self.get_viable_solution(primal[1], primal[2]))
-        aux.print_list(self.get_unlimited_certificate(primal[3], bases, primal[2]))
+        aux.print_list(self.get_unlimited_certificate(primal[3], primal[1], primal[2]))
       else:
         print("otima")
         print("{:.7f}".format(round(primal[2][0,-1], aux.PRINT_PRECISION)))
@@ -91,8 +91,8 @@ class PL:
     cert = np.zeros(self.fpi_size)
     cert[unlimited_col - self.rest_num] = 1
     for i in bases:
-      cert[i[1] - self.rest_num] = - tableau[i[0], unlimited_col]
-    return cert[0:self.var_num]
+      cert[i[1] - self.rest_num] = -tableau[i[0], unlimited_col]
+    return cert[:self.var_num]
   
   def get_viable_solution(self, base, tableau):
     solution = np.zeros(self.fpi_size)
